@@ -56,6 +56,8 @@ export default function App() {
   const [lastMove, setLastMove] = useState(null)
   const [scores, setScores] = useState({ one: 0, two: 0 })
   const [isDraw, setIsDraw] = useState(false)
+  const [editingPlayer, setEditingPlayer] = useState(null)
+  const [editedName, setEditedName] = useState('')
 
   useEffect(() => {
     localStorage.setItem('conecta4-players', JSON.stringify(players))
@@ -107,6 +109,17 @@ export default function App() {
 
   function resetScore() {
     setScores({ one: 0, two: 0 })
+  }
+
+  function beginEditing(player) {
+    setEditingPlayer(player)
+    setEditedName(players[player])
+  }
+
+  function savePlayerName(player) {
+    const name = editedName.trim()
+    if (name) setPlayers((currentPlayers) => ({ ...currentPlayers, [player]: name }))
+    setEditingPlayer(null)
   }
 
   function dropToken(column) {
@@ -227,8 +240,25 @@ export default function App() {
           <div className="board-wrap">
             <div className={`player-card side-card ${currentPlayer === 'one' && !winner && !isDraw ? 'turn' : ''}`}>
               <span className="token red" />
-              <div><strong>{players.one}</strong><small>{PLAYER_CONFIG.one.label}</small></div>
+              <div className="player-identity">
+                {editingPlayer === 'one' ? (
+                  <input
+                    className="player-name-input"
+                    value={editedName}
+                    autoFocus
+                    maxLength={18}
+                    onChange={(event) => setEditedName(event.target.value)}
+                    onBlur={() => savePlayerName('one')}
+                    onKeyDown={(event) => event.key === 'Enter' && savePlayerName('one')}
+                    aria-label="Editar nombre del jugador 1"
+                  />
+                ) : (
+                  <strong>{players.one}</strong>
+                )}
+                <small>{PLAYER_CONFIG.one.label}</small>
+              </div>
               <b>{scores.one}</b>
+              <button className="edit-name-button" onClick={() => beginEditing('one')} aria-label="Editar nombre del jugador 1">✎</button>
             </div>
             <div className="board" role="grid" aria-label="Tablero de Conecta 4">
               {board.map((row, rowIndex) => row.map((cell, columnIndex) => {
@@ -256,8 +286,25 @@ export default function App() {
             </div>
             <div className={`player-card side-card right ${currentPlayer === 'two' && !winner && !isDraw ? 'turn' : ''}`}>
               <b>{scores.two}</b>
-              <div><strong>{players.two}</strong><small>{PLAYER_CONFIG.two.label}</small></div>
+              <div className="player-identity">
+                {editingPlayer === 'two' ? (
+                  <input
+                    className="player-name-input"
+                    value={editedName}
+                    autoFocus
+                    maxLength={18}
+                    onChange={(event) => setEditedName(event.target.value)}
+                    onBlur={() => savePlayerName('two')}
+                    onKeyDown={(event) => event.key === 'Enter' && savePlayerName('two')}
+                    aria-label="Editar nombre del jugador 2"
+                  />
+                ) : (
+                  <strong>{players.two}</strong>
+                )}
+                <small>{PLAYER_CONFIG.two.label}</small>
+              </div>
               <span className="token yellow" />
+              <button className="edit-name-button" onClick={() => beginEditing('two')} aria-label="Editar nombre del jugador 2">✎</button>
             </div>
           </div>
           {(winner || isDraw) && <div className="result-actions"><button className="primary-button" onClick={resetRound}>Nueva partida <span>→</span></button><button className="secondary-button" onClick={goHome}>Volver al inicio</button></div>}
