@@ -18,6 +18,20 @@ If you are developing a production application, we recommend using TypeScript wi
 # juega-4
 classic-game
 
+## Capturas
+
+### Dashboard principal
+
+![Dashboard principal](public/screenshots/dashboard.png)
+
+### Configuración del jugador
+
+![Configuración del jugador](public/screenshots/player-setup.png)
+
+### Partida en curso o finalizada
+
+![Tablero de juego](public/screenshots/game.png)
+
 ## Conecta-4
 
 Juego local para dos personas, con tablero de 7 columnas por 6 filas. Los nombres
@@ -48,5 +62,6 @@ La primera partida comienza con rojo; la segunda con amarillo y así
 sucesivamente. El botón **Reiniciar partida** conserva el marcador y alterna
 el jugador inicial. **Resetear marcador** pone ambas victorias en cero.
 
-Icono de la pestaña obtenido en
-<a href="https://www.magnific.com/es/icono/discusion_9324084#fromView=search&page=1&position=28&uuid=f3648305-0a7b-4dd4-9eeb-9d0be7f16193">Icono de Vector Stall</a>
+Durante la partida, cada jugador puede seleccionar el icono de lápiz junto a
+su nombre para editarlo. El nuevo nombre se guarda al pulsar Enter o al salir
+del campo.
